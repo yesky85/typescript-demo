@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Number from "./Number";
+import { Input, Form } from "./Input";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface IState {
+  count: number;
+  value: string;
 }
+
+class App extends React.Component<{}, IState> {
+  state = {
+    count: 0,
+    value: "",
+  };
+
+  onChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
+    console.log(event.target);
+  };
+
+  onFormSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+  };
+
+  render() {
+    const { count, value } = this.state;
+    return (
+      <div>
+        <Number count={count} />
+        <button onClick={() => this.setState({ count: count + 1 })}>UP</button>
+        <button onClick={() => this.setState({ count: count - 1 })}>DN</button>
+
+        <Form onFormSubmit={this.onFormSubmit}>
+          <Input value={value} onChange={this.onChange} />
+        </Form>
+      </div>
+    );
+  }
+}
+
+// const App = () => {
+//   const [count, setCount] = useState(0);
+//   return (
+//     <div className="App">
+//       <Number count={count} />
+//       <button onClick={() => setCount(count + 1)}>UP</button>
+//       <button onClick={() => setCount(count - 1)}>DN</button>
+//     </div>
+//   );
+// };
 
 export default App;
